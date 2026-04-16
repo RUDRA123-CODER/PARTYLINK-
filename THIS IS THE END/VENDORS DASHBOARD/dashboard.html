@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #c8d8e2;
+            display: flex;
+            justify-content: center;
+        }
+
+        .phone {
+            width: 390px;
+            height: 844px;
+            background: #eaf1f6;
+            border-radius: 40px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(160deg, #e8a25a, #c87a3e);
+            padding: 40px 20px;
+            color: white;
+        }
+
+        .header h2 {
+            font-size: 22px;
+        }
+
+        .header p {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        /* CONTENT */
+        .content {
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        /* CARD */
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        /* BOOKINGS */
+        .booking {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pending {
+            color: orange;
+        }
+
+        .accepted {
+            color: green;
+        }
+
+        .rejected {
+            color: red;
+        }
+
+        /* BUTTONS */
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .accept {
+            background: #27a060;
+            color: white;
+        }
+
+        .reject {
+            background: #e03030;
+            color: white;
+        }
+
+        /* NAV */
+        .bottom-nav {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            padding: 10px;
+        }
+
+        .nav-item {
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="phone">
+
+        <!-- HEADER -->
+        <div class="header">
+            <h2>Welcome, Rahul 👋</h2>
+            <p>Your Vendor Dashboard</p>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+
+            <!-- EARNINGS -->
+            <div class="card">
+                <h3>💰 Earnings</h3>
+                <p><b>₹12,500</b> this month</p>
+            </div>
+
+            <!-- BOOKINGS -->
+            <div class="card">
+                <h3>📋 Your Bookings</h3>
+
+                <div class="booking">
+                    <div>
+                        <b>Birthday Party</b><br>
+                        <small>Client: Aman · 3km</small>
+                    </div>
+                    <span class="status pending">Pending</span>
+                </div>
+
+                <br>
+
+                <button class="btn accept">Accept</button>
+                <button class="btn reject">Reject</button>
+            </div>
+
+            <!-- ANOTHER BOOKING -->
+            <div class="card">
+                <div class="booking">
+                    <div>
+                        <b>Wedding Event</b><br>
+                        <small>Client: Priya · 5km</small>
+                    </div>
+                    <span class="status accepted">Accepted</span>
+                </div>
+            </div>
+
+            <!-- URGENT REQUEST -->
+            <div class="card" style="background:#fde8e8;">
+                <h3>⚡ Urgent Request</h3>
+                <p>Client nearby needs service immediately!</p>
+            </div>
+
+        </div>
+
+        <!-- NAV -->
+        <div class="bottom-nav">
+            <div class="nav-item" onclick="window.location.href='../PAGES/HomePage.html';" style="cursor:pointer">🏠 Home</div>
+            <div class="nav-item">📦 Orders</div>
+            <div class="nav-item">💬 Chat</div>
+            <div class="nav-item">👤 Profile</div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

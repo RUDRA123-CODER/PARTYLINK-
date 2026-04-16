@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PartyLink – Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --orange: #d97c2a;
+            --brown: #5b2d1e;
+            --brown-light: #7a3d28;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+            --gray-100: #f8f7f5;
+            --gray-200: #edecea;
+            --gray-400: #b0aea8;
+            --gray-600: #888784;
+            --text: #1e1c1a;
+            --green: #27a060;
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 26px;
+            --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.06);
+            --font: 'Poppins', sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: #c8d8e2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .phone {
+            width: 390px;
+            height: 844px;
+            background: #eaf1f6;
+            border-radius: 48px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* ── Status Bar ── */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 28px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+        }
+
+        .status-bar .icons {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        /* ── Header gradient ── */
+        .header {
+            background: linear-gradient(160deg, #e8a25a 0%, #d4874a 55%, #c87a3e 100%);
+            padding: 52px 22px 22px;
+            border-radius: 0 0 28px 28px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2px;
+        }
+
+        .greeting-label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .greeting-name {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f5c97a, #e07840);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        /* ── Scrollable content ── */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 16px 80px;
+            scrollbar-width: none;
+        }
+
+        .content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ── Search Bar ── */
+        .search-wrap {
+            background: #fff;
+            border-radius: 18px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+            margin-bottom: 16px;
+        }
+
+        .search-icon {
+            font-size: 22px;
+        }
+
+        .search-wrap input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: #555;
+            background: transparent;
+        }
+
+        .search-wrap input::placeholder {
+            color: #aaa;
+        }
+
+        .filter-btn {
+            background: #d4874a;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+        .filter-btn:hover {
+            background: #c07030;
+        }
+
+        /* ── Category Pills ── */
+        .categories {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding-bottom: 4px;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .cat-icon-box {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: #e0e8ee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+        }
+
+        .cat-item:hover .cat-icon-box {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(122, 45, 26, 0.15);
+        }
+
+        .cat-item.active .cat-icon-box {
+            background: #7a2d1a;
+            box-shadow: 0 6px 18px rgba(122, 45, 26, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .cat-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #555;
+            transition: color 0.2s;
+        }
+
+        .cat-item.active .cat-label {
+            color: #7a2d1a;
+        }
+
+        /* ── Section Header ── */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .see-all {
+            font-size: 13px;
+            color: #c07030;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .see-all:hover {
+            text-decoration: underline;
+        }
+
+        /* ── Vendor Cards ── */
+        .vendor-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 22px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            min-height: 190px;
+            align-items: flex-start;
+        }
+
+        .vendor-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Empty state */
+        .empty-state {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 160px;
+            gap: 10px;
+            color: #999;
+        }
+
+        .empty-state .empty-icon {
+            font-size: 42px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .vendor-card {
+            background: #d8e4ec;
+            border-radius: 20px;
+            overflow: hidden;
+            min-width: 158px;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+        }
+
+        .vendor-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+        }
+
+        /* Card hide/show animation */
+        .vendor-card.hidden {
+            display: none;
+        }
+
+        .vendor-card.fade-in {
+            animation: fadeInUp 0.3s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .vendor-img {
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 52px;
+            background: #ccd8e2;
+        }
+
+        .vendor-info {
+            background: #7a2d1a;
+            padding: 10px 12px;
+        }
+
+        .kvc-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            background: #5a8a3a;
+            color: #fff;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-bottom: 4px;
+        }
+
+        .vendor-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .vendor-role {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 6px;
+        }
+
+        .vendor-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .vendor-price {
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .vendor-rating {
+            font-size: 12px;
+            font-weight: 700;
+            color: #ffd700;
+        }
+
+        /* ── Party SOS ── */
+        .sos-card {
+            background: #fde8e8;
+            border-radius: 18px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 14px rgba(220, 80, 80, 0.1);
+            margin-bottom: 8px;
+        }
+
+        .sos-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(220, 80, 80, 0.18);
+        }
+
+        .sos-badge {
+            background: #e03030;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 800;
+            border-radius: 12px;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .sos-text h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 3px;
+        }
+
+        .sos-text p {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .sos-arrow {
+            margin-left: auto;
+            font-size: 20px;
+            color: #555;
+            flex-shrink: 0;
+        }
+
+        /* ── Bottom nav ── */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: var(--white);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 20px 20px;
+            border-top: 1px solid var(--gray-200);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+            border-radius: 0 0 48px 48px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .nav-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--orange);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background: var(--orange);
+            color: white;
+            border-radius: 50%;
+            width: 17px;
+            height: 17px;
+            font-size: 10px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── Count badge on section title ── */
+        .count-badge {
+            display: inline-block;
+            background: #d4874a;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: 20px;
+            padding: 1px 7px;
+            margin-left: 6px;
+            vertical-align: middle;
+            transition: background 0.2s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="phone">
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span>12:00</span>
+            <div class="icons">
+                <svg width="18" height="14" viewBox="0 0 18 14" fill="none">
+                    <rect x="0" y="5" width="3" height="9" rx="1" fill="#fff" />
+                    <rect x="4.5" y="3" width="3" height="11" rx="1" fill="#fff" />
+                    <rect x="9" y="1" width="3" height="13" rx="1" fill="#fff" />
+                    <rect x="13.5" y="0" width="3" height="14" rx="1" fill="#fff" opacity="0.35" />
+                </svg>
+                <svg width="22" height="14" viewBox="0 0 22 14" fill="none">
+                    <rect x="0.5" y="0.5" width="19" height="13" rx="3.5" stroke="#fff" stroke-opacity="0.6" />
+                    <rect x="2" y="2" width="14" height="10" rx="2" fill="#fff" />
+                    <path d="M21 4.5v5a2.5 2.5 0 000-5z" fill="#fff" opacity="0.5" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <div class="header-top">
+                <div>
+                    <div class="greeting-label">Good Evening 🌙</div>
+                    <div class="greeting-name">Sample User</div>
+                </div>
+                <div class="header-icons">
+                    <div class="icon-btn">🔔</div>
+                    <div class="avatar">👩</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scrollable Content -->
+        <div class="content">
+
+            <!-- Search -->
+            <div class="search-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search Vendors, Services" oninput="handleSearch()" />
+                <button class="filter-btn" onclick="window.location.href='filterpage.html';">Filter</button>
+            </div>
+
+            <!-- Categories -->
+            <div class="categories">
+                <div class="cat-item active" data-cat="all" onclick="selectCat(this)">
+                    <div class="cat-icon-box">⭐</div>
+                    <span class="cat-label">All</span>
+                </div>
+                <div class="cat-item" data-cat="waiter" onclick="selectCat(this)">
+                    <div class="cat-icon-box">🧑</div>
+                    <span class="cat-label">Waiter</span>
+                </div>
+                <div class="cat-item" data-cat="cook" onclick="selectCat(this)">
+                    <div class="cat-icon-box">👨‍🍳</div>
+                    <span class="cat-label">Cook</span>
+                </div>
+                <div class="cat-item" data-cat="bartender" onclick="selectCat(this)">
+                    <div class="cat-icon-box">🍸</div>
+                    <span class="cat-label">Bartender</span>
+                </div>
+                <div class="cat-item" data-cat="decorator" onclick="selectCat(this)">
+                    <div class="cat-icon-box">🎨</div>
+                    <span class="cat-label">Decorator</span>
+                </div>
+            </div>
+
+            <!-- Top Rated -->
+            <div class="section-header">
+                <div class="section-title">
+                    ⭐ Top Rated Near You
+                    <span class="count-badge" id="vendorCount">6</span>
+                </div>
+                <a href="allWaiters.html" class="see-all">See All →</a>
+            </div>
+
+            <div class="vendor-row" id="vendorRow">
+
+                <!-- Waiter -->
+                <div class="vendor-card fade-in" data-category="waiter" data-name="rahul waiter"
+                    onclick="window.location.href='Rahul_Prof.html';" style="animation-delay:0s">
+                    <div class="vendor-img">🧑</div>
+                    <div class="vendor-info">
+                        <div class="kvc-badge">✓ KYC</div>
+                        <div class="vendor-name">Rahul V.</div>
+                        <div class="vendor-role">Senior Waiter · 2km</div>
+                        <div class="vendor-meta">
+                            <span class="vendor-price">₹550/hr</span>
+                            <span class="vendor-rating">★ 5.0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cook -->
+                <div class="vendor-card fade-in" data-category="cook" data-name="priya chef cook"
+                    onclick="window.location.href='Priya_Prof.html';" style="animation-delay:0.06s">
+                    <div class="vendor-img">👩‍🍳</div>
+                    <div class="vendor-info">
+                        <div class="kvc-badge">✓ KYC</div>
+                        <div class="vendor-name">Priya M.</div>
+                        <div class="vendor-role">Chef · 1.4km</div>
+                        <div class="vendor-meta">
+                            <span class="vendor-price">₹900/hr</span>
+                            <span class="vendor-rating">★ 4.9</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bartender -->
+                <div class="vendor-card fade-in" data-category="bartender" data-name="arjun bartender"
+                    onclick="window.location.href='Arjun_Prof.html';" style="animation-delay:0.12s">
+                    <div class="vendor-img">🍸</div>
+                    <div class="vendor-info">
+                        <div class="kvc-badge">✓ KYC</div>
+                        <div class="vendor-name">Arjun S.</div>
+                        <div class="vendor-role">Bartender · 3km</div>
+                        <div class="vendor-meta">
+                            <span class="vendor-price">₹700/hr</span>
+                            <span class="vendor-rating">★ 4.8</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Decorator -->
+                <div class="vendor-card fade-in" data-category="decorator" data-name="meera decorator"
+                    onclick="window.location.href='Meera_Prof.html';" style="animation-delay:0.18s">
+                    <div class="vendor-img">🎨</div>
+                    <div class="vendor-info">
+                        <div class="kvc-badge">✓ KYC</div>
+                        <div class="vendor-name">Meera K.</div>
+                        <div class="vendor-role">Decorator · 1km</div>
+                        <div class="vendor-meta">
+                            <span class="vendor-price">₹1200/hr</span>
+                            <span class="vendor-rating">★ 4.7</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Waiter 2 -->
+                <div class="vendor-card fade-in" data-category="waiter" data-name="sonu waiter"
+                    onclick="window.location.href='Sonu_Prof.html';" style="animation-delay:0.24s">
+                    <div class="vendor-img">🧑‍🍽️</div>
+                    <div class="vendor-info">
+                        <div class="kvc-badge">✓ KYC</div>
+                        <div class="vendor-name">Sonu R.</div>
+                        <div class="vendor-role">Waiter · 4km</div>
+                        <div class="vendor-meta">
+                            <span class="vendor-price">₹400/hr</span>
+                            <span class="vendor-rating">★ 4.6</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cook 2 -->
+                <div class="vendor-card fade-in" data-category="cook" data-name="ravi cook chef"
+                    onclick="window.location.href='Ravi_Prof.html';" style="animation-delay:0.3s">
+                    <div class="vendor-img">👨‍🍳</div>
+                    <div class="vendor-info">
+                        <div class="kvc-badge">✓ KYC</div>
+                        <div class="vendor-name">Ravi T.</div>
+                        <div class="vendor-role">Chef · 2.8km</div>
+                        <div class="vendor-meta">
+                            <span class="vendor-price">₹850/hr</span>
+                            <span class="vendor-rating">★ 4.5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty state (shown when no results) -->
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">🔍</div>
+                    <p>No vendors found</p>
+                </div>
+            </div>
+
+            <!-- Party SOS -->
+            <div class="section-header">
+                <div class="section-title">⚡ Party SOS</div>
+                <a class="see-all">See All →</a>
+            </div>
+
+            <div class="sos-card" onclick="window.location.href='SOS.html';">
+                <div class="sos-badge">SOS</div>
+                <div class="sos-text">
+                    <h3>Last-Minute Emergency?</h3>
+                    <p>Broadcast to 200+ nearby Professionals instantly</p>
+                </div>
+                <div class="sos-arrow">→</div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Nav -->
+        <div class="bottom-nav">
+            <div class="nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#d97c2a" stroke-width="2">
+                    <path d="M3 12L12 4l9 8" />
+                    <path d="M5 10v9a1 1 0 001 1h4v-4h4v4h4a1 1 0 001-1v-9" />
+                </svg>
+                <div class="nav-dot"></div>
+            </div>
+            <div class="nav-item" onclick="window.location.href='SearchPage.html';">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2">
+                    <circle cx="11" cy="11" r="7" />
+                    <line x1="17" y1="17" x2="22" y2="22" />
+                </svg>
+            </div>
+            <div class="nav-item" onclick="window.location.href='AddToCart.html';">
+                <div style="position:relative;display:inline-flex;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <path d="M16 10a4 4 0 01-8 0" />
+                    </svg>
+                    <div class="cart-badge" id="cartBadge">3</div>
+                </div>
+            </div>
+            <div class="nav-item" onclick="window.location.href='chatpage.html';">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                </svg>
+            </div>
+            <div class="nav-item" onclick="window.location.href='Profile.html';">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let activeCat = 'all';
+        let searchQuery = '';
+
+        /* ── Category filter ── */
+        function selectCat(el) {
+            document.querySelectorAll('.cat-item').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            activeCat = el.dataset.cat;
+            applyFilters();
+        }
+
+        /* ── Search filter ── */
+        function handleSearch() {
+            searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            applyFilters();
+        }
+
+        /* ── Apply both filters together ── */
+        function applyFilters() {
+            const cards = document.querySelectorAll('.vendor-card');
+            let visibleCount = 0;
+
+            cards.forEach((card, i) => {
+                const cardCat = card.dataset.category;
+                const cardName = card.dataset.name || '';
+
+                const catMatch = activeCat === 'all' || cardCat === activeCat;
+                const searchMatch = searchQuery === '' || cardName.includes(searchQuery);
+
+                if (catMatch && searchMatch) {
+                    card.classList.remove('hidden');
+                    card.classList.remove('fade-in');
+                    // Trigger reflow so animation restarts
+                    void card.offsetWidth;
+                    card.classList.add('fade-in');
+                    card.style.animationDelay = (visibleCount * 0.06) + 's';
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                    card.classList.remove('fade-in');
+                }
+            });
+
+            // Update count badge
+            document.getElementById('vendorCount').textContent = visibleCount;
+
+            // Show / hide empty state
+            const emptyState = document.getElementById('emptyState');
+            emptyState.style.display = visibleCount === 0 ? 'flex' : 'none';
+        }
+
+        /* ── Bottom nav ── */
+        function setNav(el) {
+            document.querySelectorAll('.nav-item').forEach(n => {
+                n.classList.remove('active');
+                const dot = n.querySelector('.nav-dot');
+                if (dot) dot.remove();
+            });
+            el.classList.add('active');
+            const dot = document.createElement('div');
+            dot.className = 'nav-dot';
+            el.appendChild(dot);
+        }
+    </script>
+</body>
+
+</html>

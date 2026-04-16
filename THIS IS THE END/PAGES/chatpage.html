@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>PartyLink – Chat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --orange: #d97c2a;
+            --brown: #5b2d1e;
+            --brown-light: #7a3d28;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+            --gray-100: #f8f7f5;
+            --gray-200: #edecea;
+            --gray-400: #b0aea8;
+            --gray-600: #888784;
+            --text: #1e1c1a;
+            --green: #27a060;
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 26px;
+            --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.06);
+            --font: 'Poppins', sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: #c8d8e2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .phone {
+            width: 390px;
+            height: 844px;
+            background: #eaf1f6;
+            border-radius: 48px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* ── Status Bar ── */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 28px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+        }
+
+        .status-bar .icons {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        /* ── Header ── */
+        .header {
+            background: linear-gradient(160deg, #e8a25a 0%, #d4874a 55%, #c87a3e 100%);
+            padding: 48px 22px 20px;
+            border-radius: 0 0 28px 28px;
+            flex-shrink: 0;
+        }
+
+        .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.4px;
+        }
+
+        .header-sub {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .new-chat-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        .new-chat-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.08);
+        }
+
+        /* ── Search ── */
+        .search-wrap {
+            background: rgba(255, 255, 255, 0.22);
+            border-radius: 14px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 14px;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .search-wrap input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            color: #fff;
+        }
+
+        .search-wrap input::placeholder {
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .search-icon {
+            font-size: 16px;
+        }
+
+        /* ── Tabs ── */
+        .tabs {
+            display: flex;
+            gap: 0;
+            padding: 12px 16px 4px;
+            flex-shrink: 0;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #999;
+            padding: 8px 0;
+            cursor: pointer;
+            border-bottom: 2.5px solid transparent;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .tab.active {
+            color: #7a2d1a;
+            border-bottom-color: #d4874a;
+        }
+
+        /* ── Scrollable list ── */
+        .chat-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 4px 0 80px;
+            scrollbar-width: none;
+        }
+
+        .chat-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ── Pinned label ── */
+        .list-label {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #aaa;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            padding: 10px 18px 6px;
+        }
+
+        /* ── Chat Row ── */
+        .chat-row {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 18px;
+            cursor: pointer;
+            transition: background 0.15s;
+            position: relative;
+            animation: fadeUp 0.35s ease both;
+        }
+
+        .chat-row:hover {
+            background: rgba(255, 255, 255, 0.55);
+        }
+
+        .chat-row.active-chat {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-row:nth-child(1) { animation-delay: 0.04s; }
+        .chat-row:nth-child(2) { animation-delay: 0.08s; }
+        .chat-row:nth-child(3) { animation-delay: 0.12s; }
+        .chat-row:nth-child(4) { animation-delay: 0.16s; }
+        .chat-row:nth-child(5) { animation-delay: 0.20s; }
+        .chat-row:nth-child(6) { animation-delay: 0.24s; }
+
+        .chat-row::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 74px;
+            right: 18px;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        /* ── Avatar ── */
+        .av-wrap {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .av {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .av.brown { background: #d8e4ec; }
+        .av.orange { background: linear-gradient(135deg, #f5c97a, #e07840); }
+        .av.pink { background: #f0dded; }
+        .av.blue { background: #d0e4f5; }
+        .av.green { background: #d4edd8; }
+
+        .av-online {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #4caf50;
+            border: 2px solid #eaf1f6;
+        }
+
+        /* ── Chat info ── */
+        .chat-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chat-name-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3px;
+        }
+
+        .chat-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a1a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-time {
+            font-size: 10.5px;
+            color: #bbb;
+            font-weight: 500;
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+
+        .chat-role {
+            font-size: 10px;
+            color: #d4874a;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .chat-preview {
+            font-size: 12px;
+            color: #888;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-preview.unread {
+            color: #444;
+            font-weight: 600;
+        }
+
+        .unread-badge {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #d4874a;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* ── Chat Window ── */
+        .chat-window {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #eaf1f6;
+            border-radius: 48px;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 50;
+        }
+
+        .chat-window.open {
+            transform: translateX(0);
+        }
+
+        .cw-header {
+            background: linear-gradient(160deg, #e8a25a 0%, #d4874a 55%, #c87a3e 100%);
+            padding: 48px 18px 16px;
+            border-radius: 0 0 24px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .cw-back {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #fff;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+
+        .cw-back:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .cw-av {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #d8e4ec;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .cw-av-dot {
+            position: absolute;
+            bottom: 1px;
+            right: 1px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #4caf50;
+            border: 2px solid #d4874a;
+        }
+
+        .cw-info { flex: 1; }
+
+        .cw-name {
+            font-size: 16px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .cw-status {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .cw-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .cw-act-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .cw-act-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .booking-strip {
+            background: #fff;
+            margin: 12px 14px 0;
+            border-radius: 16px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+            flex-shrink: 0;
+        }
+
+        .booking-icon { font-size: 22px; }
+
+        .booking-info { flex: 1; }
+
+        .booking-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .booking-sub {
+            font-size: 10.5px;
+            color: #888;
+        }
+
+        .booking-status {
+            font-size: 10px;
+            font-weight: 700;
+            background: #fff3e0;
+            color: #d4874a;
+            padding: 3px 8px;
+            border-radius: 20px;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px 14px 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            scrollbar-width: none;
+        }
+
+        .messages::-webkit-scrollbar { display: none; }
+
+        .day-label {
+            text-align: center;
+            font-size: 10.5px;
+            font-weight: 600;
+            color: #bbb;
+            margin: 4px 0;
+        }
+
+        .bubble-wrap {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            animation: fadeUp 0.25s ease both;
+        }
+
+        .bubble-wrap.sent { flex-direction: row-reverse; }
+
+        .bubble-av {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #d8e4ec;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .bubble {
+            max-width: 68%;
+            padding: 10px 14px;
+            border-radius: 18px;
+            font-size: 12.5px;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .bubble.received {
+            background: #fff;
+            color: #1a1a1a;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        }
+
+        .bubble.sent {
+            background: linear-gradient(135deg, #e8a25a, #c87a3e);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 3px 10px rgba(200, 122, 62, 0.3);
+        }
+
+        .bubble-time {
+            font-size: 9.5px;
+            opacity: 0.6;
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .bubble.received .bubble-time { text-align: left; color: #999; }
+
+        .tick { font-size: 10px; }
+        .tick.read { color: #4caf50; }
+
+        .quick-replies {
+            display: flex;
+            gap: 8px;
+            padding: 0 14px 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            flex-shrink: 0;
+        }
+
+        .quick-replies::-webkit-scrollbar { display: none; }
+
+        .qr-chip {
+            background: #fff;
+            border: 1.5px solid #d4874a;
+            color: #d4874a;
+            font-family: 'Poppins', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 20px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: background 0.18s, color 0.18s;
+            flex-shrink: 0;
+        }
+
+        .qr-chip:hover {
+            background: #d4874a;
+            color: #fff;
+        }
+
+        .input-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px 16px;
+            background: #fff;
+            border-top: 1px solid #e0e8ee;
+            flex-shrink: 0;
+        }
+
+        .attach-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #eaf1f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .attach-btn:hover { background: #d8e8f0; }
+
+        .msg-input {
+            flex: 1;
+            background: #eaf1f6;
+            border: none;
+            outline: none;
+            border-radius: 22px;
+            padding: 10px 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            color: #333;
+            resize: none;
+            height: 40px;
+            line-height: 1.4;
+        }
+
+        .msg-input::placeholder { color: #aaa; }
+
+        .send-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e8a25a, #c87a3e);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(200, 122, 62, 0.35);
+            transition: transform 0.15s, opacity 0.15s;
+            flex-shrink: 0;
+        }
+
+        .send-btn:hover { transform: scale(1.08); }
+        .send-btn:active { transform: scale(0.94); opacity: 0.85; }
+
+        /* ── Standard Bottom Nav ── */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: var(--white);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 20px 20px;
+            border-top: 1px solid var(--gray-200);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+            border-radius: 0 0 48px 48px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .nav-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--orange);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background: var(--orange);
+            color: white;
+            border-radius: 50%;
+            width: 17px;
+            height: 17px;
+            font-size: 10px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<div class="phone">
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span>12:00</span>
+        <div class="icons">
+            <svg width="18" height="14" viewBox="0 0 18 14" fill="none">
+                <rect x="0" y="5" width="3" height="9" rx="1" fill="#fff"/>
+                <rect x="4.5" y="3" width="3" height="11" rx="1" fill="#fff"/>
+                <rect x="9" y="1" width="3" height="13" rx="1" fill="#fff"/>
+                <rect x="13.5" y="0" width="3" height="14" rx="1" fill="#fff" opacity="0.35"/>
+            </svg>
+            <svg width="22" height="14" viewBox="0 0 22 14" fill="none">
+                <rect x="0.5" y="0.5" width="19" height="13" rx="3.5" stroke="#fff" stroke-opacity="0.6"/>
+                <rect x="2" y="2" width="14" height="10" rx="2" fill="#fff"/>
+                <path d="M21 4.5v5a2.5 2.5 0 000-5z" fill="#fff" opacity="0.5"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="header-row">
+            <div>
+                <div class="header-title">💬 Messages</div>
+                <div class="header-sub">5 active conversations</div>
+            </div>
+            <div class="new-chat-btn" title="New Chat">✏️</div>
+        </div>
+        <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="Search conversations…" oninput="filterChats(this.value)"/>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab(this,'all')">All</div>
+        <div class="tab" onclick="switchTab(this,'unread')">Unread</div>
+        <div class="tab" onclick="switchTab(this,'bookings')">Bookings</div>
+    </div>
+
+    <!-- Chat List -->
+    <div class="chat-list" id="chatList">
+
+        <div class="list-label">📌 Pinned</div>
+
+        <div class="chat-row active-chat" onclick="openChat(0)" data-name="sonu r waiter">
+            <div class="av-wrap">
+                <div class="av brown">🧑‍🍽️</div>
+                <div class="av-online"></div>
+            </div>
+            <div class="chat-info">
+                <div class="chat-name-row">
+                    <div class="chat-name">Sonu R.</div>
+                    <div class="chat-time">2m ago</div>
+                </div>
+                <div class="chat-role">🧑 Waiter · Booked for Apr 12</div>
+                <div class="chat-preview unread">Sure! I'll arrive by 6 PM sharp 🙌</div>
+            </div>
+            <div class="unread-badge">2</div>
+        </div>
+
+        <div class="chat-row" onclick="openChat(1)" data-name="priya m cook chef">
+            <div class="av-wrap">
+                <div class="av orange">👩‍🍳</div>
+                <div class="av-online"></div>
+            </div>
+            <div class="chat-info">
+                <div class="chat-name-row">
+                    <div class="chat-name">Priya M.</div>
+                    <div class="chat-time">1h ago</div>
+                </div>
+                <div class="chat-role">👩‍🍳 Chef · Completed</div>
+                <div class="chat-preview">Thank you for the lovely review! 😊</div>
+            </div>
+        </div>
+
+        <div class="list-label">Recent</div>
+
+        <div class="chat-row" onclick="openChat(2)" data-name="rahul v waiter">
+            <div class="av-wrap">
+                <div class="av brown">🧑</div>
+            </div>
+            <div class="chat-info">
+                <div class="chat-name-row">
+                    <div class="chat-name">Rahul V.</div>
+                    <div class="chat-time">Yesterday</div>
+                </div>
+                <div class="chat-role">🧑 Senior Waiter</div>
+                <div class="chat-preview">Got it, I'll confirm by tonight.</div>
+            </div>
+        </div>
+
+        <div class="chat-row" onclick="openChat(3)" data-name="arjun s bartender">
+            <div class="av-wrap">
+                <div class="av blue">🍸</div>
+            </div>
+            <div class="chat-info">
+                <div class="chat-name-row">
+                    <div class="chat-name">Arjun S.</div>
+                    <div class="chat-time">Mon</div>
+                </div>
+                <div class="chat-role">🍸 Bartender</div>
+                <div class="chat-preview unread">Can you confirm the guest count?</div>
+            </div>
+            <div class="unread-badge">1</div>
+        </div>
+
+        <div class="chat-row" onclick="openChat(4)" data-name="meera k decorator">
+            <div class="av-wrap">
+                <div class="av green">🎨</div>
+            </div>
+            <div class="chat-info">
+                <div class="chat-name-row">
+                    <div class="chat-name">Meera K.</div>
+                    <div class="chat-time">Sun</div>
+                </div>
+                <div class="chat-role">🎨 Decorator</div>
+                <div class="chat-preview">The venue looked absolutely magical! ✨</div>
+            </div>
+        </div>
+
+        <div class="list-label">Support</div>
+        <div class="chat-row" onclick="openChat(5)" data-name="partylink support help">
+            <div class="av-wrap">
+                <div class="av orange">🌟</div>
+            </div>
+            <div class="chat-info">
+                <div class="chat-name-row">
+                    <div class="chat-name">PartyLink Support</div>
+                    <div class="chat-time">3d ago</div>
+                </div>
+                <div class="chat-role">🛎️ Official Support</div>
+                <div class="chat-preview">Your KVC verification is complete ✅</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Standard Bottom Nav -->
+    <div class="bottom-nav">
+        <div class="nav-item" onclick="window.location.href='HomePage.html';">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2">
+                <path d="M3 12L12 4l9 8" />
+                <path d="M5 10v9a1 1 0 001 1h4v-4h4v4h4a1 1 0 001-1v-9" />
+            </svg>
+        </div>
+        <div class="nav-item" onclick="window.location.href='SearchPage.html';">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2">
+                <circle cx="11" cy="11" r="7" />
+                <line x1="17" y1="17" x2="22" y2="22" />
+            </svg>
+        </div>
+        <div class="nav-item" onclick="window.location.href='AddToCart.html';">
+            <div style="position:relative;display:inline-flex;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 01-8 0" />
+                </svg>
+                <div class="cart-badge" id="cartBadge">3</div>
+            </div>
+        </div>
+        <div class="nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#d97c2a" stroke-width="2">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+            </svg>
+            <div class="nav-dot"></div>
+        </div>
+        <div class="nav-item" onclick="window.location.href='Profile.html';">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- Chat Window -->
+    <div class="chat-window" id="chatWindow">
+        <div class="cw-header">
+            <div class="cw-back" onclick="closeChat()">←</div>
+            <div class="cw-av" id="cwAv">🧑‍🍽️<div class="cw-av-dot"></div></div>
+            <div class="cw-info">
+                <div class="cw-name" id="cwName">Sonu R.</div>
+                <div class="cw-status" id="cwStatus">🟢 Online · Waiter</div>
+            </div>
+            <div class="cw-actions">
+                <div class="cw-act-btn" onclick="callVendor()">📞</div>
+                <div class="cw-act-btn">⋯</div>
+            </div>
+        </div>
+
+        <div class="booking-strip" id="cwBookingStrip">
+            <div class="booking-icon">📋</div>
+            <div class="booking-info">
+                <div class="booking-title">Birthday Party · Apr 12</div>
+                <div class="booking-sub">4 hrs · ₹400/hr = ₹1,600</div>
+            </div>
+            <div class="booking-status">Confirmed</div>
+        </div>
+
+        <div class="messages" id="messagesArea">
+            <div class="day-label">Today</div>
+            <div class="bubble-wrap received">
+                <div class="bubble-av">🧑‍🍽️</div>
+                <div class="bubble received">Hi! Just confirmed your booking for Apr 12 🎉<div class="bubble-time">11:42 AM</div></div>
+            </div>
+            <div class="bubble-wrap sent">
+                <div class="bubble sent">That's great, Sonu! Please arrive by 6 PM.<div class="bubble-time">11:44 AM <span class="tick read">✓✓</span></div></div>
+            </div>
+        </div>
+
+        <div class="quick-replies" id="quickReplies">
+            <div class="qr-chip" onclick="sendQuick(this)">👍 Sounds good!</div>
+            <div class="qr-chip" onclick="sendQuick(this)">📍 Send location</div>
+            <div class="qr-chip" onclick="sendQuick(this)">⏰ Be on time</div>
+        </div>
+
+        <div class="input-bar">
+            <div class="attach-btn">📎</div>
+            <input class="msg-input" type="text" id="msgInput" placeholder="Type a message…" onkeydown="if(event.key==='Enter') sendMessage()"/>
+            <button class="send-btn" onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const chatData = [
+        {
+            name: 'Sonu R.',
+            av: '🧑‍🍽️',
+            status: '🟢 Online · Waiter',
+            booking: { title: 'Birthday Party · Apr 12', sub: '4 hrs · ₹400/hr = ₹1,600', status: 'Confirmed' },
+            messages: [
+                { type:'received', text:'Hi! Just confirmed your booking for Apr 12 🎉', time:'11:42 AM' },
+                { type:'sent',     text:'That\'s great, Sonu! Please arrive by 6 PM.', time:'11:44 AM', read:true },
+                { type:'received', text:'Sure! I\'ll arrive by 6 PM sharp 🙌 Do you need me to bring any equipment?', time:'11:46 AM' },
+                { type:'sent',     text:'No equipment needed, just your uniform!', time:'11:50 AM', read:true },
+                { type:'received', text:'Perfect 👍 I\'ll be there. See you on the 12th!', time:'11:52 AM' },
+            ]
+        },
+        {
+            name: 'Priya M.',
+            av: '👩‍🍳',
+            status: '🟡 Away · Chef',
+            booking: { title: 'House Party · Apr 5', sub: '3 hrs · ₹900/hr = ₹2,700', status: 'Completed' },
+            messages: [
+                { type:'received', text:'The food was prepared and served on time! Hope everyone enjoyed 🍽️', time:'6:00 PM' },
+                { type:'sent',     text:'Everyone absolutely loved it! Great work Priya 🎉', time:'6:15 PM', read:true },
+                { type:'received', text:'Thank you for the lovely review! 😊', time:'6:20 PM' },
+            ]
+        },
+        {
+            name: 'Rahul V.',
+            av: '🧑',
+            status: '⚫ Offline · Waiter',
+            booking: { title: 'Anniversary Dinner · Apr 18', sub: '5 hrs · ₹550/hr = ₹2,750', status: 'Pending' },
+            messages: [
+                { type:'sent',     text:'Hi Rahul, are you available on Apr 18?', time:'3:00 PM', read:true },
+                { type:'received', text:'Let me check my schedule and get back to you.', time:'3:15 PM' },
+                { type:'sent',     text:'Sure, please confirm soon!', time:'3:20 PM', read:true },
+                { type:'received', text:'Got it, I\'ll confirm by tonight.', time:'3:22 PM' },
+            ]
+        },
+        {
+            name: 'Arjun S.',
+            av: '🍸',
+            status: '🟢 Online · Bartender',
+            booking: { title: 'Corporate Event · Apr 20', sub: '6 hrs · ₹700/hr = ₹4,200', status: 'Pending' },
+            messages: [
+                { type:'sent',     text:'Hey Arjun! Booked you for Apr 20 corporate event.', time:'Mon 2:00 PM', read:true },
+                { type:'received', text:'Great! Can you confirm the guest count?', time:'Mon 2:05 PM' },
+            ]
+        },
+        {
+            name: 'Meera K.',
+            av: '🎨',
+            status: '⚫ Offline · Decorator',
+            booking: { title: 'Wedding · Mar 28', sub: '8 hrs · ₹1,200/hr = ₹9,600', status: 'Completed' },
+            messages: [
+                { type:'sent',     text:'Meera the decorations were breathtaking! ✨', time:'Sun 11:00 AM', read:true },
+                { type:'received', text:'The venue looked absolutely magical! ✨', time:'Sun 11:10 AM' },
+            ]
+        },
+        {
+            name: 'PartyLink Support',
+            av: '🌟',
+            status: '🟢 Online · Support Team',
+            booking: null,
+            messages: [
+                { type:'received', text:'Welcome to PartyLink! 🎉 How can we help you today?', time:'3d ago' },
+                { type:'sent',     text:'Hi, I wanted to ask about KVC verification.', time:'3d ago', read:true },
+                { type:'received', text:'Your KVC verification is complete ✅ You can now book any verified professional!', time:'3d ago' },
+            ]
+        }
+    ];
+
+    let currentChat = null;
+
+    function openChat(idx) {
+        currentChat = idx;
+        const d = chatData[idx];
+        document.getElementById('cwAv').childNodes[0].textContent = d.av;
+        document.getElementById('cwName').textContent = d.name;
+        document.getElementById('cwStatus').textContent = d.status;
+        const strip = document.getElementById('cwBookingStrip');
+        if (d.booking) {
+            strip.style.display = 'flex';
+            strip.querySelector('.booking-title').textContent = d.booking.title;
+            strip.querySelector('.booking-sub').textContent = d.booking.sub;
+            const s = strip.querySelector('.booking-status');
+            s.textContent = d.booking.status;
+            s.style.background = d.booking.status === 'Completed' ? '#e8f5e9' : '#fff3e0';
+            s.style.color = d.booking.status === 'Completed' ? '#388e3c' : '#d4874a';
+        } else {
+            strip.style.display = 'none';
+        }
+        const area = document.getElementById('messagesArea');
+        area.innerHTML = '<div class="day-label">Today</div>';
+        d.messages.forEach(m => {
+            const wrap = document.createElement('div');
+            wrap.className = 'bubble-wrap ' + m.type;
+            const avDiv = document.createElement('div');
+            avDiv.className = 'bubble-av';
+            avDiv.textContent = m.type === 'received' ? d.av : '';
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble ' + m.type;
+            bubble.innerHTML = m.text + `<div class="bubble-time">${m.time}${m.read ? ' <span class="tick read">✓✓</span>' : ''}</div>`;
+            if (m.type === 'received') wrap.appendChild(avDiv);
+            wrap.appendChild(bubble);
+            area.appendChild(wrap);
+        });
+        area.scrollTop = area.scrollHeight;
+        document.getElementById('chatWindow').classList.add('open');
+    }
+
+    function closeChat() { document.getElementById('chatWindow').classList.remove('open'); currentChat = null; }
+
+    function sendMessage() {
+        const input = document.getElementById('msgInput');
+        const text = input.value.trim();
+        if (!text) return;
+        const area = document.getElementById('messagesArea');
+        const time = new Date().getHours() + ':' + String(new Date().getMinutes()).padStart(2,'0');
+        const wrap = document.createElement('div');
+        wrap.className = 'bubble-wrap sent';
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble sent';
+        bubble.innerHTML = text + `<div class="bubble-time">${time} <span class="tick">✓</span></div>`;
+        wrap.appendChild(bubble);
+        area.appendChild(wrap);
+        area.scrollTop = area.scrollHeight;
+        input.value = '';
+        if (currentChat !== null) {
+            setTimeout(() => {
+                const rtext = 'Got it! 👍';
+                const rtime = new Date().getHours() + ':' + String(new Date().getMinutes()).padStart(2,'0');
+                const rwrap = document.createElement('div');
+                rwrap.className = 'bubble-wrap received';
+                const rav = document.createElement('div');
+                rav.className = 'bubble-av';
+                rav.textContent = chatData[currentChat].av;
+                const rb = document.createElement('div');
+                rb.className = 'bubble received';
+                rb.innerHTML = rtext + `<div class="bubble-time">${rtime}</div>`;
+                rwrap.appendChild(rav);
+                rwrap.appendChild(rb);
+                area.appendChild(rwrap);
+                area.scrollTop = area.scrollHeight;
+            }, 1000);
+        }
+    }
+
+    function sendQuick(el) { document.getElementById('msgInput').value = el.textContent; sendMessage(); }
+    function callVendor() { if (currentChat !== null) alert('📞 Calling ' + chatData[currentChat].name + '…'); }
+    function switchTab(el, type) { document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); el.classList.add('active'); }
+    function filterChats(q) { const term = q.toLowerCase(); document.querySelectorAll('.chat-row').forEach(row => { row.style.display = row.dataset.name.includes(term) ? 'flex' : 'none'; }); }
+</script>
+</body>
+</html>

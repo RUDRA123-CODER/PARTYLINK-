@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Cart – PartyPro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --orange: #d97c2a;
+            --brown: #5b2d1e;
+            --brown-light: #7a3d28;
+            --bg: #f0eeeb;
+            --white: #ffffff;
+            --gray-100: #f8f7f5;
+            --gray-200: #edecea;
+            --gray-400: #b0aea8;
+            --gray-600: #888784;
+            --text: #1e1c1a;
+            --green: #27a060;
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 26px;
+            --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.06);
+            --font: 'Poppins', sans-serif;
+        }
+
+        body {
+            font-family: var(--font);
+            background: #c8d8e2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* ── Phone shell ── */
+        .phone {
+            width: 390px;
+            height: 844px;
+            background: #eaf1f6;
+            border-radius: 48px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* ── Status bar ── */
+        .status-bar {
+            background: var(--orange);
+            padding: 10px 20px 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        /* ── Header ── */
+        .header {
+            background: var(--orange);
+            padding: 10px 20px 24px;
+            color: white;
+            border-radius: 0 0 28px 28px;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .back-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            cursor: pointer;
+            color: white;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .header-nav-title {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .header-title {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .header-sub {
+            font-size: 13px;
+            opacity: 0.82;
+            margin-top: 3px;
+        }
+
+        /* ── Scroll content ── */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 16px 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            scrollbar-width: none;
+        }
+
+        .content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .section-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 2px;
+        }
+
+        /* ── Cart item card ── */
+        .cart-item {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.2s, opacity 0.3s;
+        }
+
+        .cart-item.removed {
+            opacity: 0.25;
+            pointer-events: none;
+            transform: scale(0.97);
+        }
+
+        .avatar {
+            width: 62px;
+            height: 62px;
+            border-radius: var(--radius-md);
+            background: #ede9f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            flex-shrink: 0;
+        }
+
+        .avatar.cook {
+            background: #fde8d0;
+        }
+
+        .avatar.bartender {
+            background: #d8f0e6;
+        }
+
+        .item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .item-role {
+            font-size: 12px;
+            color: var(--gray-600);
+            margin-top: 1px;
+        }
+
+        .kvc-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            background: var(--brown);
+            color: white;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 7px;
+            margin-top: 5px;
+        }
+
+        .star-row {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 12px;
+            color: var(--orange);
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .qty-ctrl {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            font-weight: 700;
+            transition: transform 0.1s, background 0.15s;
+        }
+
+        .qty-btn:active {
+            transform: scale(0.9);
+        }
+
+        .qty-btn.plus {
+            background: var(--orange);
+            color: white;
+        }
+
+        .qty-btn.minus {
+            background: var(--gray-200);
+            color: var(--text);
+            border: 1px solid #ddd;
+        }
+
+        .qty-num {
+            font-size: 15px;
+            font-weight: 800;
+            min-width: 22px;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .qty-unit {
+            font-size: 11px;
+            color: var(--gray-400);
+            margin-left: -2px;
+        }
+
+        .item-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+
+        .remove-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #fce8e8;
+            border: none;
+            color: #c0392b;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+
+        .remove-btn:hover {
+            background: #f5c6c6;
+        }
+
+        .item-rate {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--brown);
+            margin-top: 4px;
+        }
+
+        .item-rate span {
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--gray-400);
+        }
+
+        .item-subtotal {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--brown);
+        }
+
+        /* ── Date picker ── */
+        .date-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .date-card-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gray-600);
+            margin-bottom: 10px;
+        }
+
+        .date-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+
+        .date-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .date-chip {
+            flex-shrink: 0;
+            background: var(--gray-100);
+            border-radius: var(--radius-sm);
+            padding: 9px 14px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.15s;
+        }
+
+        .date-chip:hover {
+            border-color: var(--orange);
+        }
+
+        .date-chip.active {
+            background: var(--brown);
+            border-color: var(--brown);
+        }
+
+        .date-chip .day {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--gray-600);
+        }
+
+        .date-chip.active .day {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .date-chip .num {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .date-chip.active .num {
+            color: white;
+        }
+
+        .time-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .time-chip {
+            flex: 1;
+            background: var(--gray-100);
+            border-radius: var(--radius-sm);
+            padding: 9px 6px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.15s;
+        }
+
+        .time-chip:hover {
+            border-color: var(--orange);
+        }
+
+        .time-chip.active {
+            background: #fdf1e5;
+            border-color: var(--orange);
+            color: var(--orange);
+        }
+
+        /* ── Bill summary ── */
+        .summary-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 14px;
+        }
+
+        .summary-row .lbl {
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .summary-row .val {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .summary-row .val.discount {
+            color: var(--green);
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--gray-200);
+            margin: 6px 0;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 8px;
+        }
+
+        .total-lbl {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .total-val {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--brown);
+        }
+
+        /* ── Promo ── */
+        .promo-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .promo-input {
+            flex: 1;
+            border: 1.5px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            font-size: 14px;
+            font-family: var(--font);
+            color: var(--text);
+            background: var(--gray-100);
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .promo-input:focus {
+            border-color: var(--orange);
+        }
+
+        .promo-btn {
+            background: var(--orange);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 800;
+            font-family: var(--font);
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+        }
+
+        .promo-btn:hover {
+            background: #c46e20;
+        }
+
+        .promo-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* ── Checkout button ── */
+        .checkout-btn {
+            background: var(--brown);
+            color: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            padding: 16px 20px;
+            font-size: 16px;
+            font-weight: 800;
+            font-family: var(--font);
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 6px 24px rgba(91, 45, 30, 0.28);
+            transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+        }
+
+        .checkout-btn:hover {
+            background: var(--brown-light);
+            box-shadow: 0 8px 28px rgba(91, 45, 30, 0.34);
+        }
+
+        .checkout-btn:active {
+            transform: scale(0.98);
+        }
+
+        .checkout-price {
+            font-size: 15px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.18);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* ── Bottom nav ── */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: var(--white);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 20px 20px;
+            border-top: 1px solid var(--gray-200);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+            border-radius: 0 0 48px 48px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .nav-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--orange);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background: var(--orange);
+            color: white;
+            border-radius: 50%;
+            width: 17px;
+            height: 17px;
+            font-size: 10px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .removed {
+            display: none !important;
+        }
+
+        /* ── Animations ── */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cart-item,
+        .date-card,
+        .summary-card {
+            animation: slideUp 0.35s ease both;
+        }
+
+        .cart-item:nth-child(2) {
+            animation-delay: 0.05s;
+        }
+
+        .cart-item:nth-child(3) {
+            animation-delay: 0.10s;
+        }
+
+        .date-card {
+            animation-delay: 0.15s;
+        }
+
+        .summary-card {
+            animation-delay: 0.20s;
+        }
+
+        .checkout-btn {
+            animation: slideUp 0.4s 0.25s ease both;
+        }
+
+        /* ── Responsive: full width on small screens ── */
+        @media (max-width: 400px) {
+
+            .phone,
+            .bottom-nav {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="phone">
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span>12:00</span>
+            <div class="status-icons">
+                <svg width="16" height="12" viewBox="0 0 16 12">
+                    <rect x="0" y="3" width="3" height="9" rx="1" fill="white" opacity="0.35" />
+                    <rect x="4.5" y="2" width="3" height="10" rx="1" fill="white" opacity="0.6" />
+                    <rect x="9" y="0" width="3" height="12" rx="1" fill="white" opacity="0.85" />
+                    <rect x="13.5" y="0" width="2.5" height="12" rx="1" fill="white" />
+                </svg>
+                <svg width="23" height="12" viewBox="0 0 23 12">
+                    <rect x="0" y="1" width="19" height="10" rx="2.5" stroke="white" stroke-width="1.2" fill="none" />
+                    <rect x="19.5" y="3.5" width="2.5" height="5" rx="1" fill="white" opacity="0.55" />
+                    <rect x="1.2" y="2.2" width="14.5" height="7.6" rx="1.5" fill="white" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <div class="header-top">
+                <button class="back-btn" onclick="window.location.href='HomePage.html';">&#8592;</button>
+                <span class="header-nav-title">My Cart</span>
+            </div>
+            <div class="header-title">Your Booking Cart</div>
+            <div class="header-sub" id="headerSub">0 professionals selected</div>
+        </div>
+
+        <!-- Scrollable Content -->
+        <div class="content">
+
+            <div class="section-label">Selected Professionals</div>
+
+            <!-- Cart Item Container -->
+            <div id="cartItemsContainer"></div>
+
+            <div id="emptyState" style="display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; text-align: center; gap: 10px;">
+                <div style="font-size: 48px;">🛒</div>
+                <div style="font-size: 15px; font-weight: 700; color: var(--text);">Your cart is empty</div>
+                <div style="font-size: 12px; color: var(--text-muted); cursor: pointer; text-decoration: underline;" onclick="window.location.href='SearchPage.html';">Browse Professionals</div>
+            </div>
+
+            <!-- Date & Time Picker -->
+            <div class="date-card">
+                <div class="date-card-label">Select Date &amp; Time</div>
+                <div class="date-scroll">
+                    <div class="date-chip" onclick="setDate(this)">
+                        <div class="day">Mon</div>
+                        <div class="num">7</div>
+                    </div>
+                    <div class="date-chip active" onclick="setDate(this)">
+                        <div class="day">Tue</div>
+                        <div class="num">8</div>
+                    </div>
+                    <div class="date-chip" onclick="setDate(this)">
+                        <div class="day">Wed</div>
+                        <div class="num">9</div>
+                    </div>
+                    <div class="date-chip" onclick="setDate(this)">
+                        <div class="day">Thu</div>
+                        <div class="num">10</div>
+                    </div>
+                    <div class="date-chip" onclick="setDate(this)">
+                        <div class="day">Fri</div>
+                        <div class="num">11</div>
+                    </div>
+                    <div class="date-chip" onclick="setDate(this)">
+                        <div class="day">Sat</div>
+                        <div class="num">12</div>
+                    </div>
+                </div>
+                <div class="time-row">
+                    <div class="time-chip" onclick="setTime(this)">6:00 PM</div>
+                    <div class="time-chip active" onclick="setTime(this)">7:00 PM</div>
+                    <div class="time-chip" onclick="setTime(this)">8:00 PM</div>
+                    <div class="time-chip" onclick="setTime(this)">9:00 PM</div>
+                </div>
+            </div>
+
+            <!-- Bill Summary -->
+            <div class="summary-card">
+                <div class="section-label" style="margin-bottom:8px;">Bill Summary</div>
+                <div id="summaryItemsContainer"></div>
+                <div class="divider"></div>
+                <div class="summary-row"><span class="lbl">Subtotal</span><span class="val"
+                        id="subtotalEl">&#8377;7,000</span></div>
+                <div class="summary-row"><span class="lbl">Platform fee</span><span class="val">&#8377;200</span></div>
+                <div class="summary-row"><span class="lbl">Promo discount</span><span class="val discount"
+                        id="discountEl">&#8722;&#8377;500</span></div>
+                <div class="divider"></div>
+                <div class="total-row">
+                    <span class="total-lbl">Total</span>
+                    <span class="total-val" id="totalEl">&#8377;6,700</span>
+                </div>
+                <div class="promo-row">
+                    <input class="promo-input" id="promoInput" placeholder="Enter promo code" />
+                    <button class="promo-btn" onclick="applyPromo()">Apply</button>
+                </div>
+            </div>
+
+            <!-- Checkout -->
+            <button class="checkout-btn" onclick="handleCheckout()">
+                <span>Confirm Booking</span>
+                <span class="checkout-price" id="checkoutPrice">&#8377;6,700 &rarr;</span>
+            </button>
+
+        </div><!-- /content -->
+
+        <!-- Bottom Nav -->
+        <div class="bottom-nav">
+            <div class="nav-item" onclick="window.location.href='HomePage.html';">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2">
+                    <path d="M3 12L12 4l9 8" />
+                    <path d="M5 10v9a1 1 0 001 1h4v-4h4v4h4a1 1 0 001-1v-9" />
+                </svg>
+            </div>
+            <div class="nav-item" onclick="window.location.href='SearchPage.html';">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2">
+                    <circle cx="11" cy="11" r="7" />
+                    <line x1="17" y1="17" x2="22" y2="22" />
+                </svg>
+            </div>
+            <div class="nav-item active">
+                <div style="position:relative;display:inline-flex;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#d97c2a" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <path d="M16 10a4 4 0 01-8 0" />
+                    </svg>
+                    <div class="cart-badge" id="cartBadge">3</div>
+                </div>
+                <div class="nav-dot"></div>
+            </div>
+            <div class="nav-item" onclick="window.location.href='chatpage.html';">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                </svg>
+            </div>
+            <div class="nav-item" onclick="window.location.href='Profile.html';">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+            </div>
+        </div>
+
+    </div><!-- /phone -->
+
+    <script>
+        let promoApplied = true;
+        const PLATFORM_FEE = 200;
+        const PROMO_DISCOUNT = 500;
+
+        let cartData = JSON.parse(localStorage.getItem('partypro_cart')) || [];
+
+        function fmt(n) {
+            return '₹' + n.toLocaleString('en-IN');
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cartItemsContainer');
+            const summaryContainer = document.getElementById('summaryItemsContainer');
+            const emptyState = document.getElementById('emptyState');
+            const headerSub = document.getElementById('headerSub');
+            const summaryCard = document.querySelector('.summary-card');
+            const checkoutBtn = document.querySelector('.checkout-btn');
+
+            container.innerHTML = '';
+            summaryContainer.innerHTML = '';
+
+            let activeCount = cartData.filter(item => !item.removed).length;
+            headerSub.textContent = `${activeCount} professional${activeCount !== 1 ? 's' : ''} selected`;
+            document.getElementById('cartBadge').textContent = activeCount;
+
+            if (activeCount === 0) {
+                emptyState.style.display = 'flex';
+                summaryCard.style.display = 'none';
+                checkoutBtn.style.display = 'none';
+                return;
+            } else {
+                emptyState.style.display = 'none';
+                summaryCard.style.display = 'block';
+                checkoutBtn.style.display = 'flex';
+            }
+
+            cartData.forEach((item, index) => {
+                if(item.removed) return;
+                let hrs = item.qty || 3; // Default 3 hours
+
+                // Cart item
+                const cartEl = document.createElement('div');
+                cartEl.className = 'cart-item';
+                cartEl.innerHTML = `
+                    <div class="avatar">${item.icon}</div>
+                    <div class="item-info">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-role">${item.role}</div>
+                        <div class="kvc-badge">&#10003; KVC</div>
+                        <div class="star-row">&#9733; 4.8</div>
+                        <div class="qty-ctrl">
+                            <button class="qty-btn minus" onclick="changeQty(${index}, -1)">&#8722;</button>
+                            <span class="qty-num">${hrs}</span>
+                            <button class="qty-btn plus" onclick="changeQty(${index}, 1)">&#43;</button>
+                            <span class="qty-unit">hrs</span>
+                        </div>
+                    </div>
+                    <div class="item-right">
+                        <button class="remove-btn" onclick="removeItem(${index})">&#215;</button>
+                        <div class="item-rate">${fmt(item.rate)} <span>/hr</span></div>
+                        <div class="item-subtotal">${fmt(item.rate * hrs)}</div>
+                    </div>
+                `;
+                container.appendChild(cartEl);
+
+                // Summary item
+                const sumEl = document.createElement('div');
+                sumEl.className = 'summary-row';
+                sumEl.innerHTML = `<span class="lbl">${item.name} (${hrs} hrs)</span><span class="val">${fmt(item.rate * hrs)}</span>`;
+                summaryContainer.appendChild(sumEl);
+            });
+
+            updateTotals();
+        }
+
+        function changeQty(index, delta) {
+            let item = cartData[index];
+            let currentQty = item.qty || 3;
+            currentQty += delta;
+            if (currentQty < 1) currentQty = 1;
+            if (currentQty > 12) currentQty = 12;
+            item.qty = currentQty;
+            localStorage.setItem('partypro_cart', JSON.stringify(cartData));
+            renderCart();
+        }
+
+        function removeItem(index) {
+            cartData[index].removed = true;
+            cartData = cartData.filter(i => !i.removed);
+            localStorage.setItem('partypro_cart', JSON.stringify(cartData));
+            renderCart();
+        }
+
+        function updateTotals() {
+            let subtotal = 0;
+            cartData.forEach(item => {
+                if(!item.removed) {
+                    let hrs = item.qty || 3;
+                    subtotal += (item.rate * hrs);
+                }
+            });
+
+            const discount = promoApplied ? PROMO_DISCOUNT : 0;
+            const total = subtotal > 0 ? (subtotal + PLATFORM_FEE - discount) : 0;
+
+            document.getElementById('subtotalEl').textContent = fmt(subtotal);
+            document.getElementById('discountEl').textContent = promoApplied ? '−' + fmt(discount) : '₹0';
+            document.getElementById('totalEl').textContent = fmt(total);
+            document.getElementById('checkoutPrice').textContent = fmt(total) + ' →';
+        }
+
+        function setDate(el) {
+            document.querySelectorAll('.date-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function setTime(el) {
+            document.querySelectorAll('.time-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function applyPromo() {
+            const code = document.getElementById('promoInput').value.trim().toUpperCase();
+            if (code === '' || code === 'PARTY10' || code === 'PROMO') {
+                promoApplied = true;
+                document.getElementById('promoInput').style.borderColor = '#27a060';
+                document.getElementById('promoInput').value = code || 'PARTY10';
+            } else {
+                promoApplied = false;
+                document.getElementById('promoInput').style.borderColor = '#c0392b';
+            }
+            updateTotals();
+        }
+
+        function handleCheckout() {
+            window.location.href = 'PaymentSucess.html';
+        }
+
+        renderCart();
+    </script>
+</body>
+
+</html>

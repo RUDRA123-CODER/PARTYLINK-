@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search – PartyPro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --orange: #E07B39;
+            --orange-dark: #C4622A;
+            --maroon: #7B2C2C;
+            --maroon-light: #A03838;
+            --bg: #EEF0F4;
+            --card-bg: #FFFFFF;
+            --text-primary: #1A1A2E;
+            --text-muted: #7A7A9A;
+            --green: #2D7A4F;
+            --star: #F4A623;
+            --radius: 16px;
+            --shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        /* ─── Phone Shell ─────────────────────────────────── */
+        .phone {
+            width: 390px;
+            background: var(--bg);
+            border-radius: 40px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+            overflow: hidden;
+            min-height: 844px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ─── Status Bar ──────────────────────────────────── */
+        .status-bar {
+            background: var(--orange);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 24px 6px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .signal-bar {
+            display: flex;
+            gap: 2px;
+            align-items: flex-end;
+        }
+
+        .signal-bar span {
+            width: 3px;
+            background: #fff;
+            border-radius: 2px;
+            display: block;
+        }
+
+        .signal-bar span:nth-child(1) {
+            height: 5px;
+        }
+
+        .signal-bar span:nth-child(2) {
+            height: 8px;
+        }
+
+        .signal-bar span:nth-child(3) {
+            height: 11px;
+        }
+
+        .signal-bar span:nth-child(4) {
+            height: 14px;
+        }
+
+        .battery {
+            width: 22px;
+            height: 11px;
+            border: 2px solid #fff;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .battery::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 5px;
+            background: #fff;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .battery-fill {
+            width: 80%;
+            height: 100%;
+            background: #fff;
+            border-radius: 1px;
+        }
+
+        /* ─── Header ──────────────────────────────────────── */
+        .header {
+            background: var(--orange);
+            padding: 6px 20px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-btn {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .back-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+
+        .header-title {
+            font-size: 22px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        /* ─── Search Bar ──────────────────────────────────── */
+        .search-wrap {
+            background: var(--bg);
+            padding: 18px 16px 10px;
+        }
+
+        .search-box {
+            background: #fff;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            padding: 0 14px;
+            box-shadow: var(--shadow);
+            gap: 10px;
+        }
+
+        .search-box svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 14px 0;
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            background: transparent;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .filter-btn {
+            background: var(--orange);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+        .filter-btn:hover {
+            background: var(--orange-dark);
+        }
+
+        /* ─── Filter Chips ────────────────────────────────── */
+        .filter-chips {
+            display: flex;
+            gap: 8px;
+            padding: 10px 16px 6px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .filter-chips::-webkit-scrollbar {
+            display: none;
+        }
+
+        .chip {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: #fff;
+            border: 2px solid transparent;
+            border-radius: 22px;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .chip.active {
+            background: var(--maroon);
+            color: #fff;
+            border-color: var(--maroon);
+        }
+
+        .chip:hover:not(.active) {
+            border-color: var(--orange);
+            color: var(--orange);
+        }
+
+        .chip-emoji {
+            font-size: 15px;
+        }
+
+        /* ─── Sort & Count Row ───────────────────────────── */
+        .sort-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px 6px;
+        }
+
+        .result-count {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .result-count span {
+            color: var(--text-primary);
+            font-weight: 900;
+        }
+
+        .sort-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--orange);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        /* ─── Scrollable Results ──────────────────────────── */
+        .results {
+            flex: 1;
+            overflow-y: auto;
+            padding: 6px 16px 16px;
+            scrollbar-width: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .results::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ─── Vendor Card ─────────────────────────────────── */
+        .vendor-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            display: flex;
+            animation: fadeUp 0.4s ease both;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .vendor-card:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .vendor-card:nth-child(2) {
+            animation-delay: 0.10s;
+        }
+
+        .vendor-card:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .vendor-card:nth-child(4) {
+            animation-delay: 0.20s;
+        }
+
+        .vendor-card:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        .vendor-card:nth-child(6) {
+            animation-delay: 0.30s;
+        }
+
+        .vendor-avatar {
+            width: 100px;
+            background: #D8D8E8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 52px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .kyc-badge {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--green);
+            color: #fff;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .vendor-info {
+            flex: 1;
+            padding: 12px 14px 12px 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .vendor-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .vendor-name {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--text-primary);
+        }
+
+        .vendor-role {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .vendor-dist {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .vendor-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .vendor-price {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--maroon);
+        }
+
+        .vendor-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .star-icon {
+            color: var(--star);
+            font-size: 14px;
+        }
+
+        .vendor-tags {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+
+        .tag {
+            font-size: 10px;
+            font-weight: 800;
+            background: #F0EDE8;
+            color: var(--maroon);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .tag.avail {
+            background: #E6F4EC;
+            color: var(--green);
+        }
+
+        .book-btn {
+            background: var(--maroon);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 7px 14px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .book-btn:hover {
+            background: var(--maroon-light);
+        }
+
+        /* ─── No Results ─────────────────────────────────── */
+        .no-results {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            gap: 10px;
+        }
+
+        .no-results .icon {
+            font-size: 52px;
+        }
+
+        .no-results p {
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* ─── Bottom Nav ─────────────────────────────────── */
+        .bottom-nav {
+            background: #fff;
+            border-top: 1px solid #EAEAEA;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0 14px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .nav-item.active svg {
+            stroke: var(--orange);
+        }
+
+        .nav-item:not(.active) svg {
+            stroke: #B0B0C8;
+        }
+
+        .nav-badge {
+            position: absolute;
+            top: -4px;
+            right: -6px;
+            background: var(--orange);
+            color: #fff;
+            font-size: 9px;
+            font-weight: 900;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-dot {
+            width: 5px;
+            height: 5px;
+            background: var(--orange);
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="phone">
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span>12:00</span>
+            <div class="status-icons">
+                <div class="signal-bar">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+                <div class="battery">
+                    <div class="battery-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <div class="back-btn" onclick="window.location.href='HomePage.html';">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="15 18 9 12 15 6" />
+                </svg>
+            </div>
+            <span class="header-title">Search Professionals</span>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-wrap">
+            <div class="search-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#E07B39" stroke-width="2.5" stroke-linecap="round">
+                    <circle cx="11" cy="11" r="7" />
+                    <line x1="16.5" y1="16.5" x2="22" y2="22" />
+                </svg>
+                <input id="searchInput" type="text" placeholder="Search Vendors, Services…" oninput="filterCards()" />
+                <button class="filter-btn">⚙ Filter</button>
+            </div>
+        </div>
+
+        <!-- Category Chips -->
+        <div class="filter-chips" id="chips">
+            <div class="chip active" onclick="setChip(this,'all')"><span class="chip-emoji">⭐</span> All</div>
+            <div class="chip" onclick="setChip(this,'waiter')"><span class="chip-emoji">🤵</span> Waiter</div>
+            <div class="chip" onclick="setChip(this,'cook')"><span class="chip-emoji">👨‍🍳</span> Cook</div>
+            <div class="chip" onclick="setChip(this,'bartender')"><span class="chip-emoji">🍸</span> Bartender</div>
+            <div class="chip" onclick="setChip(this,'decorator')"><span class="chip-emoji">🎀</span> Decorator</div>
+            <div class="chip" onclick="setChip(this,'cleaner')"><span class="chip-emoji">🧹</span> Cleaner</div>
+        </div>
+
+        <!-- Sort Row -->
+        <div class="sort-row">
+            <div class="result-count">Showing <span id="count">6</span> results</div>
+            <button class="sort-btn">⬇ Sort by Rating</button>
+        </div>
+
+        <!-- Results -->
+        <div class="results" id="results">
+
+            <div class="vendor-card" data-role="waiter" data-name="Rahul Verma"
+                onclick="window.location.href='Rahul_Prof.html';">
+                <div class="vendor-avatar">🤵<div class="kyc-badge">✓ KYC</div>
+                </div>
+                <div class="vendor-info">
+                    <div>
+                        <div class="vendor-top">
+                            <div>
+                                <div class="vendor-name">Rahul V.</div>
+                                <div class="vendor-role">Senior Waiter · <span class="vendor-dist">2 km</span></div>
+                            </div>
+                            <div class="vendor-rating"><span class="star-icon">★</span>5.0</div>
+                        </div>
+                        <div class="vendor-tags">
+                            <span class="tag avail">Available</span>
+                            <span class="tag">5 yrs exp</span>
+                        </div>
+                    </div>
+                    <div class="vendor-bottom">
+                        <div class="vendor-price">₹550/hr</div>
+                        <button class="book-btn" onclick="event.stopPropagation(); addToCartFromSearch('rahul');">Book
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vendor-card" data-role="cook" data-name="Priya Mehta"
+                onclick="window.location.href='Priya_Prof.html';">
+                <div class="vendor-avatar">👩‍🍳<div class="kyc-badge">✓ KYC</div>
+                </div>
+                <div class="vendor-info">
+                    <div>
+                        <div class="vendor-top">
+                            <div>
+                                <div class="vendor-name">Priya M.</div>
+                                <div class="vendor-role">Chef · <span class="vendor-dist">1.4 km</span></div>
+                            </div>
+                            <div class="vendor-rating"><span class="star-icon">★</span>4.9</div>
+                        </div>
+                        <div class="vendor-tags">
+                            <span class="tag avail">Available</span>
+                            <span class="tag">8 yrs exp</span>
+                        </div>
+                    </div>
+                    <div class="vendor-bottom">
+                        <div class="vendor-price">₹900/hr</div>
+                        <button class="book-btn" onclick="event.stopPropagation(); addToCartFromSearch('priya');">Book
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vendor-card" data-role="bartender" data-name="Arjun Singh"
+                onclick="window.location.href='Arjun_Prof.html';">
+                <div class="vendor-avatar">🍸<div class="kyc-badge">✓ KYC</div>
+                </div>
+                <div class="vendor-info">
+                    <div>
+                        <div class="vendor-top">
+                            <div>
+                                <div class="vendor-name">Arjun S.</div>
+                                <div class="vendor-role">Bartender · <span class="vendor-dist">3 km</span></div>
+                            </div>
+                            <div class="vendor-rating"><span class="star-icon">★</span>4.8</div>
+                        </div>
+                        <div class="vendor-tags">
+                            <span class="tag avail">Available</span>
+                            <span class="tag">Mixologist</span>
+                        </div>
+                    </div>
+                    <div class="vendor-bottom">
+                        <div class="vendor-price">₹750/hr</div>
+                        <button class="book-btn" onclick="event.stopPropagation(); addToCartFromSearch('arjun');">Book
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vendor-card" data-role="decorator" data-name="Sneha Kapoor"
+                onclick="window.location.href='Neha_Prof.html';">
+                <div class="vendor-avatar">🎀<div class="kyc-badge">✓ KYC</div>
+                </div>
+                <div class="vendor-info">
+                    <div>
+                        <div class="vendor-top">
+                            <div>
+                                <div class="vendor-name">Sneha K.</div>
+                                <div class="vendor-role">Decorator · <span class="vendor-dist">0.8 km</span></div>
+                            </div>
+                            <div class="vendor-rating"><span class="star-icon">★</span>4.7</div>
+                        </div>
+                        <div class="vendor-tags">
+                            <span class="tag avail">Available</span>
+                            <span class="tag">Floral & Balloon</span>
+                        </div>
+                    </div>
+                    <div class="vendor-bottom">
+                        <div class="vendor-price">₹1200/hr</div>
+                        <button class="book-btn" onclick="event.stopPropagation(); addToCartFromSearch('sneha');">Book
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vendor-card" data-role="waiter" data-name="Mohan Das">
+                <div class="vendor-avatar">🤵<div class="kyc-badge">✓ KYC</div>
+                </div>
+                <div class="vendor-info">
+                    <div>
+                        <div class="vendor-top">
+                            <div>
+                                <div class="vendor-name">Mohan D.</div>
+                                <div class="vendor-role">Waiter · <span class="vendor-dist">4.5 km</span></div>
+                            </div>
+                            <div class="vendor-rating"><span class="star-icon">★</span>4.6</div>
+                        </div>
+                        <div class="vendor-tags">
+                            <span class="tag">Busy Today</span>
+                            <span class="tag">3 yrs exp</span>
+                        </div>
+                    </div>
+                    <div class="vendor-bottom">
+                        <div class="vendor-price">₹450/hr</div>
+                        <button class="book-btn" onclick="event.stopPropagation(); addToCartFromSearch('mohan');">Book
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vendor-card" data-role="cleaner" data-name="Lakshmi Nair">
+                <div class="vendor-avatar">🧹<div class="kyc-badge">✓ KYC</div>
+                </div>
+                <div class="vendor-info">
+                    <div>
+                        <div class="vendor-top">
+                            <div>
+                                <div class="vendor-name">Lakshmi N.</div>
+                                <div class="vendor-role">Cleaner · <span class="vendor-dist">2.2 km</span></div>
+                            </div>
+                            <div class="vendor-rating"><span class="star-icon">★</span>4.5</div>
+                        </div>
+                        <div class="vendor-tags">
+                            <span class="tag avail">Available</span>
+                            <span class="tag">Post-Event</span>
+                        </div>
+                    </div>
+                    <div class="vendor-bottom">
+                        <div class="vendor-price">₹350/hr</div>
+                        <button class="book-btn" onclick="event.stopPropagation(); addToCartFromSearch('lakshmi');">Book
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="no-results" id="noResults">
+                <div class="icon">🔍</div>
+                <p>No professionals found.<br>Try a different search or category.</p>
+            </div>
+
+        </div>
+
+        <!-- Bottom Nav -->
+        <div class="bottom-nav">
+            <div class="nav-item" onclick="window.location.href='HomePage.html';">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1z" />
+                    <path d="M9 21V12h6v9" />
+                </svg>
+            </div>
+            <div class="nav-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round">
+                    <circle cx="11" cy="11" r="7" />
+                    <line x1="16.5" y1="16.5" x2="22" y2="22" />
+                </svg>
+                <div class="nav-dot"></div>
+            </div>
+            <div class="nav-item" style="position:relative;" onclick="window.location.href='AddToCart.html';">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 01-8 0" />
+                </svg>
+                <div class="nav-badge">3</div>
+            </div>
+            <div class="nav-item" onclick="window.location.href='chatpage.html';">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                </svg>
+            </div>
+            <div class="nav-item" onclick="window.location.href='Profile.html';">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let activeChip = 'all';
+
+        function setChip(el, role) {
+            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            activeChip = role;
+            filterCards();
+        }
+
+        function filterCards() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.vendor-card');
+            let visible = 0;
+
+            cards.forEach(card => {
+                const role = card.dataset.role;
+                const name = card.dataset.name.toLowerCase();
+                const matchRole = activeChip === 'all' || role === activeChip;
+                const matchSearch = name.includes(query) || role.includes(query);
+
+                if (matchRole && matchSearch) {
+                    card.style.display = 'flex';
+                    visible++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            document.getElementById('count').textContent = visible;
+            const noRes = document.getElementById('noResults');
+            noRes.style.display = visible === 0 ? 'flex' : 'none';
+        }
+
+        function addToCartFromSearch(id) {
+            const vendors = {
+                'rahul': { id: 'rahul', name: 'Rahul V.', role: 'Senior Waiter · 2km', icon: '🤵', rate: 550 },
+                'priya': { id: 'priya', name: 'Priya M.', role: 'Chef · 1.4km', icon: '👩‍🍳', rate: 900 },
+                'arjun': { id: 'arjun', name: 'Arjun S.', role: 'Bartender · 3km', icon: '🍸', rate: 750 },
+                'sneha': { id: 'neha', name: 'Sneha K.', role: 'Decorator · 0.8km', icon: '🎀', rate: 1200 },
+                'mohan': { id: 'mohan', name: 'Mohan D.', role: 'Waiter · 4.5km', icon: '🤵', rate: 450 },
+                'lakshmi': { id: 'lakshmi', name: 'Lakshmi N.', role: 'Cleaner · 2.2km', icon: '🧹', rate: 350 }
+            };
+
+            let vendor = vendors[id];
+            if (vendor) {
+                let cart = JSON.parse(localStorage.getItem('partypro_cart')) || [];
+                if (!cart.find(item => item.id === vendor.id)) {
+                    cart.push(vendor);
+                    localStorage.setItem('partypro_cart', JSON.stringify(cart));
+                }
+                window.location.href = 'AddToCart.html';
+            }
+        }
+    </script>
+</body>
+
+</html>

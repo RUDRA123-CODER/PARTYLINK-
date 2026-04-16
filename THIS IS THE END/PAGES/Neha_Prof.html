@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PartyLink – Neha D. Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #c8d8e2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .phone {
+            width: 390px;
+            height: 844px;
+            background: #eaf1f6;
+            border-radius: 48px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Status Bar ── */
+        .status-bar {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 28px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+        }
+
+        .sb-icons {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            height: 295px;
+            flex-shrink: 0;
+            position: relative;
+            background: radial-gradient(ellipse at 40% 20%, #c090d8 0%, #8040a8 45%, #280840 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 24px;
+            overflow: hidden;
+        }
+
+        /* Soft glow */
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(220, 160, 255, 0.25) 0%, transparent 70%);
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Deco rings */
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.07);
+            pointer-events: none;
+        }
+
+        .r1 {
+            width: 300px;
+            height: 300px;
+            top: -120px;
+            right: -80px;
+        }
+
+        .r2 {
+            width: 180px;
+            height: 180px;
+            top: -60px;
+            left: -60px;
+        }
+
+        .r3 {
+            width: 110px;
+            height: 110px;
+            bottom: 30px;
+            right: 30px;
+        }
+
+        /* Action buttons */
+        .hero-actions {
+            position: absolute;
+            top: 52px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 5;
+        }
+
+        .circle-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(8px);
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        .circle-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.08);
+        }
+
+        /* Floating palette animation */
+        .hero-art {
+            font-size: 68px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 20px rgba(200, 120, 255, 0.5)) drop-shadow(0 8px 18px rgba(0, 0, 0, 0.4));
+            animation: floatPalette 3.5s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes floatPalette {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-4deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(4deg);
+            }
+        }
+
+        /* Avatar */
+        .avatar-wrap {
+            position: relative;
+            margin-bottom: 14px;
+            z-index: 2;
+            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.4);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .avatar-bg {
+            width: 96px;
+            height: 96px;
+            border-radius: 28px;
+            background: linear-gradient(145deg, #d090e8, #8030a0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45),
+                0 0 0 3px rgba(200, 140, 255, 0.4),
+                0 0 24px rgba(180, 100, 255, 0.2);
+        }
+
+        .kvc-badge {
+            position: absolute;
+            bottom: -9px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #3a8a28;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+            border: 2px solid #eaf1f6;
+        }
+
+        .vendor-name {
+            font-size: 26px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.3px;
+            margin-bottom: 5px;
+            margin-top: 8px;
+            z-index: 2;
+            animation: slideUp 0.5s ease 0.2s both;
+        }
+
+        .vendor-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 2;
+            animation: slideUp 0.5s ease 0.3s both;
+        }
+
+        .vendor-meta span {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .meta-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── Scrollable Content ── */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 16px 110px;
+            scrollbar-width: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ── Stats ── */
+        .stats-row {
+            background: #fff;
+            border-radius: 20px;
+            display: flex;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+            animation: fadeUp 0.4s ease 0.1s both;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat {
+            flex: 1;
+            text-align: center;
+            padding: 15px 8px;
+            position: relative;
+        }
+
+        .stat+.stat::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 18%;
+            bottom: 18%;
+            width: 1px;
+            background: #e8f0f5;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 800;
+            color: #8040a8;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: #999;
+            font-weight: 500;
+        }
+
+        /* ── Section Title ── */
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: -2px;
+        }
+
+        /* ── About ── */
+        .about-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+            font-size: 13px;
+            color: #555;
+            line-height: 1.65;
+            animation: fadeUp 0.4s ease 0.15s both;
+        }
+
+        /* ── Decor Styles ── */
+        .decor-row {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding-bottom: 4px;
+            animation: fadeUp 0.4s ease 0.2s both;
+        }
+
+        .decor-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        .decor-chip {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: #fff;
+            border: 1.5px solid #e8d8f8;
+            border-radius: 50px;
+            padding: 8px 16px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.18s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            flex-shrink: 0;
+        }
+
+        .decor-chip:hover {
+            border-color: #9040c0;
+            background: #f8f0ff;
+        }
+
+        .decor-chip.active {
+            background: #8040a8;
+            border-color: #8040a8;
+        }
+
+        .decor-chip .d-icon {
+            font-size: 18px;
+        }
+
+        .decor-chip .d-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .decor-chip.active .d-name {
+            color: #fff;
+        }
+
+        /* ── Skills Tags ── */
+        .tags-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            animation: fadeUp 0.4s ease 0.22s both;
+        }
+
+        .skill-tag {
+            background: #fff;
+            border: 1.5px solid #dde8ee;
+            border-radius: 50px;
+            padding: 7px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.18s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .skill-tag:hover {
+            border-color: #9040c0;
+            color: #7030a0;
+            background: #f8f0ff;
+        }
+
+        .skill-tag.hl {
+            background: #8040a8;
+            border-color: #8040a8;
+            color: #fff;
+        }
+
+        .skill-tag.hl2 {
+            background: #7a2d1a;
+            border-color: #7a2d1a;
+            color: #fff;
+        }
+
+        /* ── AR Preview Banner ── */
+        .ar-banner {
+            background: linear-gradient(135deg, #1a0a3a, #3a1060);
+            border-radius: 18px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            animation: fadeUp 0.4s ease 0.25s both;
+            box-shadow: 0 6px 20px rgba(100, 20, 180, 0.25);
+        }
+
+        .ar-banner:hover {
+            transform: translateY(-2px);
+        }
+
+        .ar-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(180, 100, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            flex-shrink: 0;
+        }
+
+        .ar-text h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+
+        .ar-text p {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.4;
+        }
+
+        .ar-arrow {
+            margin-left: auto;
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.5);
+            flex-shrink: 0;
+        }
+
+        /* ── Availability Strip ── */
+        .avail-strip {
+            background: #fff;
+            border-radius: 18px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+            animation: fadeUp 0.4s ease 0.28s both;
+        }
+
+        .avail-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4caf50;
+            flex-shrink: 0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 0 0 7px rgba(76, 175, 80, 0.06);
+            }
+        }
+
+        .avail-text p {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1px;
+        }
+
+        .avail-text span {
+            font-size: 11px;
+            color: #888;
+        }
+
+        /* ── Gallery ── */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            animation: fadeUp 0.4s ease 0.3s both;
+        }
+
+        .g-item {
+            aspect-ratio: 1;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .g-item:hover {
+            transform: scale(0.95);
+        }
+
+        .g1 {
+            background: linear-gradient(135deg, #f8d0f0, #e040a0);
+        }
+
+        .g2 {
+            background: linear-gradient(135deg, #d0e8f8, #4080c0);
+        }
+
+        .g3 {
+            background: linear-gradient(135deg, #f8f0d0, #e0a020);
+        }
+
+        .g4 {
+            background: linear-gradient(135deg, #d0f8e0, #30a060);
+        }
+
+        .g5 {
+            background: linear-gradient(135deg, #f8d8d0, #e05030);
+        }
+
+        .g6 {
+            background: linear-gradient(135deg, #e0d0f8, #8040c0);
+            position: relative;
+        }
+
+        .g6::after {
+            content: '+6';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.42);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        /* ── Reviews ── */
+        .review-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+            animation: fadeUp 0.4s ease 0.35s both;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .reviewer-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .review-date {
+            font-size: 10px;
+            color: #bbb;
+        }
+
+        .review-stars {
+            font-size: 15px;
+            letter-spacing: 1px;
+        }
+
+        .review-text {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.65;
+        }
+
+        .see-reviews {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #8040a8;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .see-reviews:hover {
+            text-decoration: underline;
+        }
+
+        /* ── Sticky Footer ── */
+        .sticky-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #eaf1f6;
+            border-top: 1px solid #dde8ee;
+            padding: 14px 20px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 0 0 48px 48px;
+            z-index: 15;
+        }
+
+        .price-block .price-main {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a1a;
+            line-height: 1;
+        }
+
+        .price-block .price-main span {
+            font-size: 14px;
+            font-weight: 500;
+            color: #999;
+        }
+
+        .price-block .price-rating {
+            font-size: 12px;
+            color: #f5a623;
+            font-weight: 600;
+            margin-top: 3px;
+        }
+
+        .footer-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #fff;
+            border: 1.5px solid #dde8ee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .chat-btn:hover {
+            background: #f5eeff;
+            transform: scale(1.06);
+        }
+
+        .chat-btn:active {
+            transform: scale(0.95);
+        }
+
+        .add-cart-btn {
+            background: linear-gradient(135deg, #9040c0, #6020a0);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 14px 22px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(128, 48, 160, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+        }
+
+        .add-cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(128, 48, 160, 0.5);
+        }
+
+        .add-cart-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Toast */
+        .toast {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(20, 20, 20, 0.9);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 22px;
+            border-radius: 50px;
+            white-space: nowrap;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.22s;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="phone" style="position:relative;">
+
+        <!-- Toast -->
+        <div class="toast" id="toast"></div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span>12:00</span>
+            <div class="sb-icons">
+                <svg width="18" height="14" viewBox="0 0 18 14" fill="none">
+                    <rect x="0" y="5" width="3" height="9" rx="1" fill="#fff" />
+                    <rect x="4.5" y="3" width="3" height="11" rx="1" fill="#fff" />
+                    <rect x="9" y="1" width="3" height="13" rx="1" fill="#fff" />
+                    <rect x="13.5" y="0" width="3" height="14" rx="1" fill="#fff" opacity="0.35" />
+                </svg>
+                <svg width="22" height="14" viewBox="0 0 22 14" fill="none">
+                    <rect x="0.5" y="0.5" width="19" height="13" rx="3.5" stroke="#fff" stroke-opacity="0.6" />
+                    <rect x="2" y="2" width="14" height="10" rx="2" fill="#fff" />
+                    <path d="M21 4.5v5a2.5 2.5 0 000-5z" fill="#fff" opacity="0.5" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Hero -->
+        <div class="hero">
+            <div class="ring r1"></div>
+            <div class="ring r2"></div>
+            <div class="ring r3"></div>
+
+            <div class="hero-actions">
+                <button class="circle-btn" onclick="window.location.href='HomePage.html';">←</button>
+                <button class="circle-btn" id="favBtn" onclick="toggleFav()">♡</button>
+            </div>
+
+            <div class="hero-art">🎨</div>
+
+            <div class="avatar-wrap">
+                <div class="avatar-bg">👩‍🎨</div>
+                <div class="kvc-badge">✓ KVC</div>
+            </div>
+
+            <div class="vendor-name">Neha D.</div>
+            <div class="vendor-meta">
+                <span>Event Decorator</span>
+                <div class="meta-dot"></div>
+                <span>2.2 km away</span>
+                <div class="meta-dot"></div>
+                <span>Delhi NCR</span>
+            </div>
+        </div>
+
+        <!-- Scrollable Content -->
+        <div class="content">
+
+            <!-- Stats -->
+            <div class="stats-row">
+                <div class="stat">
+                    <div class="stat-value">4.9</div>
+                    <div class="stat-label">⭐ Rating</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">156</div>
+                    <div class="stat-label">Events</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">4 yrs</div>
+                    <div class="stat-label">Experience</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">99%</div>
+                    <div class="stat-label">Response</div>
+                </div>
+            </div>
+
+            <!-- About -->
+            <div class="section-title">About Neha</div>
+            <div class="about-card">
+                Creative event decorator with 4 years of experience transforming venues into breathtaking spaces.
+                Specialising in floral arrangements, themed setups, and AR-powered décor previews — bringing your dream
+                event to life across Delhi NCR. 🌸✨
+            </div>
+
+            <!-- Decor Styles -->
+            <div class="section-title">Décor Styles</div>
+            <div class="decor-row">
+                <div class="decor-chip active">
+                    <span class="d-icon">🌸</span><span class="d-name">Floral</span>
+                </div>
+                <div class="decor-chip">
+                    <span class="d-icon">✨</span><span class="d-name">Luxury</span>
+                </div>
+                <div class="decor-chip">
+                    <span class="d-icon">🌿</span><span class="d-name">Rustic</span>
+                </div>
+                <div class="decor-chip">
+                    <span class="d-icon">🎭</span><span class="d-name">Themed</span>
+                </div>
+                <div class="decor-chip">
+                    <span class="d-icon">🕯️</span><span class="d-name">Minimalist</span>
+                </div>
+            </div>
+
+            <!-- Skills -->
+            <div class="section-title">Skills & Specialities</div>
+            <div class="tags-wrap">
+                <span class="skill-tag hl">AR Décor Preview</span>
+                <span class="skill-tag hl">Wedding Décor</span>
+                <span class="skill-tag hl2">Floral Arrangements</span>
+                <span class="skill-tag">Stage Setup</span>
+                <span class="skill-tag">Balloon Art</span>
+                <span class="skill-tag">Lighting Design</span>
+                <span class="skill-tag">Table Styling</span>
+                <span class="skill-tag">Hindi · English</span>
+            </div>
+
+            <!-- AR Preview Banner -->
+            <div class="ar-banner" onclick="showToast('Launching AR Preview...')">
+                <div class="ar-icon">🥽</div>
+                <div class="ar-text">
+                    <h3>Try AR Décor Preview</h3>
+                    <p>Visualise Neha's décor at your venue before booking</p>
+                </div>
+                <div class="ar-arrow">→</div>
+            </div>
+
+            <!-- Availability -->
+            <div class="avail-strip">
+                <div class="avail-dot"></div>
+                <div class="avail-text">
+                    <p>Available This Weekend</p>
+                    <span>Sat & Sun · Books very fast!</span>
+                </div>
+                <span style="font-size:20px;margin-left:auto;">📅</span>
+            </div>
+
+            <!-- Gallery -->
+            <div class="section-title">Work Gallery</div>
+            <div class="gallery">
+                <div class="g-item g1">🌸</div>
+                <div class="g-item g2">🕯️</div>
+                <div class="g-item g3">🎊</div>
+                <div class="g-item g4">🌿</div>
+                <div class="g-item g5">🎀</div>
+                <div class="g-item g6">✨</div>
+            </div>
+
+            <!-- Reviews -->
+            <div class="section-title">Recent Reviews</div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <div>
+                        <div class="reviewer-name">Pooja S.</div>
+                        <div class="review-date">March 20, 2025</div>
+                    </div>
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                </div>
+                <p class="review-text">Neha transformed our wedding venue into an absolute dream! The floral
+                    arrangements were stunning and she used the AR preview feature to show us exactly how it would look
+                    beforehand. Couldn't be happier!</p>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <div>
+                        <div class="reviewer-name">Aakash M.</div>
+                        <div class="review-date">Feb 10, 2025</div>
+                    </div>
+                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                </div>
+                <p class="review-text">Booked Neha for our corporate gala — the stage setup and table styling were
+                    beyond expectations. Very professional, creative and efficient. 10/10 would book again!</p>
+            </div>
+
+            <div class="see-reviews" onclick="showToast('Loading all 156 reviews...')">See all 156 reviews →</div>
+
+        </div>
+
+        <!-- Sticky Footer -->
+        <div class="sticky-footer">
+            <div class="price-block">
+                <div class="price-main">₹1.2K<span>/hr</span></div>
+                <div class="price-rating">★ 4.9 · 156 reviews</div>
+            </div>
+            <div class="footer-btns">
+                <button class="chat-btn" onclick="showToast('Opening chat with Neha...')">💬</button>
+                <button class="add-cart-btn" id="cartBtn" onclick="addToCart()">Add to Cart →</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /* Fav toggle */
+        let faved = false;
+        function toggleFav() {
+            faved = !faved;
+            const btn = document.getElementById('favBtn');
+            btn.textContent = faved ? '♥' : '♡';
+            btn.style.color = faved ? '#ff4466' : '#fff';
+            btn.style.background = faved ? 'rgba(255,68,102,0.25)' : 'rgba(255,255,255,0.18)';
+            showToast(faved ? 'Added to favourites ❤️' : 'Removed from favourites');
+        }
+
+        /* Decor chip select */
+        document.querySelectorAll('.decor-chip').forEach(c => {
+            c.addEventListener('click', () => {
+                document.querySelectorAll('.decor-chip').forEach(x => x.classList.remove('active'));
+                c.classList.add('active');
+            });
+        });
+
+        /* Add to cart */
+        function addToCart() {
+            let cart = JSON.parse(localStorage.getItem('partypro_cart')) || [];
+            let vendor = { id: 'neha', name: 'Neha D.', role: 'Decorator', icon: '🎀', rate: 1200 };
+            
+            if(!cart.find(item => item.id === vendor.id)) {
+                cart.push(vendor);
+                localStorage.setItem('partypro_cart', JSON.stringify(cart));
+            }
+
+            const btn = document.getElementById('cartBtn');
+            btn.textContent = '✓ Added!';
+            btn.style.background = 'linear-gradient(135deg,#4caf50,#2e7d32)';
+            btn.style.boxShadow = '0 6px 20px rgba(46,125,50,0.38)';
+            showToast('Neha D. added to cart 🛒');
+            setTimeout(() => {
+                window.location.href = 'AddToCart.html';
+            }, 800);
+        }
+
+        /* Toast */
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2200);
+        }
+    </script>
+</body>
+
+</html>

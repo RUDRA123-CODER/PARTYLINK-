@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PartyLink</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #d0dfe8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .phone {
+            width: 390px;
+            min-height: 844px;
+            background: #e8f0f5;
+            border-radius: 48px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Status bar */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 28px 0;
+            font-size: 15px;
+            font-weight: 600;
+            color: #111;
+            background: transparent;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        .status-bar .icons {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        /* Hero gradient section */
+        .hero {
+            background: linear-gradient(170deg, #e8a25a 0%, #d4874a 40%, #c87a3e 70%, #dba86a 100%);
+            padding: 60px 24px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border-radius: 0 0 32px 32px;
+        }
+
+        .hero-emoji {
+            font-size: 72px;
+            line-height: 1;
+            margin-bottom: 18px;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .brand {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 14px;
+            letter-spacing: -1px;
+        }
+
+        .brand .party {
+            color: #1a1a1a;
+        }
+
+        .brand .link {
+            color: #8b2500;
+        }
+
+        .tagline {
+            font-size: 15px;
+            color: #2a1a0a;
+            font-weight: 400;
+            line-height: 1.5;
+            opacity: 0.85;
+            max-width: 240px;
+        }
+
+        /* Bottom section */
+        .bottom {
+            flex: 1;
+            padding: 28px 20px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Card carousel */
+        .card {
+            background: #7a2d1a;
+            border-radius: 24px;
+            padding: 28px 24px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 8px 30px rgba(122, 45, 26, 0.35);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .card h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .card p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.55;
+            max-width: 240px;
+            margin: 0 auto;
+        }
+
+        /* Dots */
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: -4px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #c4a97a;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: #c0622a;
+            width: 28px;
+            border-radius: 6px;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #d4874a, #c07030);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 18px;
+            font-size: 17px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 6px 20px rgba(192, 112, 48, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(192, 112, 48, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        .btn-arrow {
+            font-size: 20px;
+            margin-left: 4px;
+        }
+
+        .btn-secondary {
+            background: #dde8ee;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 50px;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #cdd8e0;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="phone">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span>12:00</span>
+            <div class="icons">
+                <svg width="18" height="14" viewBox="0 0 18 14" fill="none">
+                    <rect x="0" y="5" width="3" height="9" rx="1" fill="#111" />
+                    <rect x="4.5" y="3" width="3" height="11" rx="1" fill="#111" />
+                    <rect x="9" y="1" width="3" height="13" rx="1" fill="#111" />
+                    <rect x="13.5" y="0" width="3" height="14" rx="1" fill="#111" opacity="0.3" />
+                </svg>
+                <svg width="22" height="14" viewBox="0 0 22 14" fill="none">
+                    <rect x="0.5" y="0.5" width="19" height="13" rx="3.5" stroke="#111" stroke-opacity="0.35" />
+                    <rect x="2" y="2" width="14" height="10" rx="2" fill="#111" />
+                    <path d="M21 4.5v5a2.5 2.5 0 000-5z" fill="#111" opacity="0.4" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Hero -->
+        <div class="hero">
+            <div class="hero-emoji">🎊</div>
+            <div class="brand">
+                <span class="party">Party</span><span class="link">Link</span>
+            </div>
+            <p class="tagline">On-demand event staff & vendors verified & ready in minutes.</p>
+        </div>
+
+        <!-- Bottom -->
+        <div class="bottom">
+            <!-- Slide Card -->
+            <div class="card" id="card">
+                <div class="card-icon" id="cardIcon">🧑</div>
+                <h2 id="cardTitle">Hire Instantly</h2>
+                <p id="cardDesc">Browse waiters, cooks, bartenders & decorators near your venue with transparent hourly
+                    rates</p>
+            </div>
+
+            <!-- Dots -->
+            <div class="dots">
+                <div class="dot active" onclick="goSlide(0)"></div>
+                <div class="dot" onclick="goSlide(1)"></div>
+                <div class="dot" onclick="goSlide(2)"></div>
+            </div>
+
+            <!-- CTA Buttons -->
+            <button class="btn-primary" onclick="window.location.href='HomePage.html';">
+                Get started <span class="btn-arrow">→</span>
+            </button>
+            <button class="btn-secondary" onclick="window.location.href='SignUP.html';">
+                I'm a Vendor. Join Free
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const slides = [
+            { icon: '🧑', title: 'Hire Instantly', desc: 'Browse waiters, cooks, bartenders & decorators near your venue with transparent hourly rates' },
+            { icon: '✅', title: 'Verified Vendors', desc: 'Every staff member is background-checked, rated, and ready to work at your event' },
+            { icon: '⚡', title: 'Ready in Minutes', desc: 'Book on-demand event staff within minutes — no long waits, no hidden fees' },
+        ];
+        let current = 0;
+
+        function goSlide(index) {
+            current = index;
+            const { icon, title, desc } = slides[index];
+            const card = document.getElementById('card');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(12px)';
+            setTimeout(() => {
+                document.getElementById('cardIcon').textContent = icon;
+                document.getElementById('cardTitle').textContent = title;
+                document.getElementById('cardDesc').textContent = desc;
+                card.style.transition = 'opacity 0.35s, transform 0.35s';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 180);
+            document.querySelectorAll('.dot').forEach((d, i) => {
+                d.classList.toggle('active', i === index);
+            });
+        }
+
+        // Auto-rotate
+        setInterval(() => goSlide((current + 1) % slides.length), 3000);
+    </script>
+</body>
+
+</html>
